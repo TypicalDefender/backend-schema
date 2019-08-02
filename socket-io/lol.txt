@@ -1,0 +1,16 @@
+const express = require('express');
+const path = require('path');
+const app = express();
+app.use('/', express.static(path.join(__dirname, './frontent')));
+const http = require('http');
+const server = http.createServer(app);
+
+const socketio = require('socket.io');
+const io = socketio(server);
+io.on('connection', (socket)=>{
+  console.log("the connection formed on"+ socket.id);
+  socket.emit('connected');
+})
+server.listen(3000, ()=>{
+  console.log('webpage is running at http://localhost:3000');
+})
